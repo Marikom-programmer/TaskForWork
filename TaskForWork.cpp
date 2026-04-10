@@ -6,6 +6,7 @@
 #include "framework.h"
 #include "TaskForWork.h"
 #include "TaskForWorkDlg.h"
+#include "DownLoadDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -71,7 +72,8 @@ BOOL CTaskForWorkApp::InitInstance()
 	// например на название организации
 	SetRegistryKey(_T("Локальные приложения, созданные с помощью мастера приложений"));
 
-	CTaskForWorkDlg dlg;
+	//CTaskForWorkDlg dlg;
+	DownLoadDlg dlg;
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)
