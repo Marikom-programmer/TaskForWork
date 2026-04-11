@@ -5,8 +5,9 @@
 #include "pch.h"
 #include "framework.h"
 #include "TaskForWork.h"
-#include "TaskForWorkDlg.h"
+#include "StartDlg.h"
 #include "DownLoadDlg.h"
+#include "RunDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -70,10 +71,11 @@ BOOL CTaskForWorkApp::InitInstance()
 	// Измените раздел реестра, в котором хранятся параметры
 	// TODO: следует изменить эту строку на что-нибудь подходящее,
 	// например на название организации
-	SetRegistryKey(_T("Локальные приложения, созданные с помощью мастера приложений"));
+	SetRegistryKey(_T("TaskForWork"));
 
-	//CTaskForWorkDlg dlg;
-	DownLoadDlg dlg;
+	//StartDlg dlg;
+	RunDlg dlg;
+
 	m_pMainWnd = &dlg;
 	INT_PTR nResponse = dlg.DoModal();
 	if (nResponse == IDOK)

@@ -1,20 +1,20 @@
 ﻿
-// TaskForWorkDlg.h: файл заголовка
+// StartDlg.h: файл заголовка
 //
 
 #pragma once
 
 
-// Диалоговое окно CTaskForWorkDlg
-class CTaskForWorkDlg : public CDialogEx
+// Диалоговое окно StartDlg
+class StartDlg : public CDialogEx
 {
 // Создание
 public:
-	CTaskForWorkDlg(CWnd* pParent = nullptr);	// стандартный конструктор
+	StartDlg(CWnd* pParent = nullptr);	// стандартный конструктор
 
 // Данные диалогового окна
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_TASKFORWORK_DIALOG };
+	enum { IDD = IDD_START_DIALOG };
 #endif
 
 private:

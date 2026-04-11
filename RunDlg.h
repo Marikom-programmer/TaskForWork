@@ -2,31 +2,29 @@
 #include "afxdialogex.h"
 
 
-// Диалоговое окно DownLoadDlg
+// Диалоговое окно RunDlg
 
-class DownLoadDlg : public CDialogEx
+class RunDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(DownLoadDlg)
+	DECLARE_DYNAMIC(RunDlg)
 
 public:
-	DownLoadDlg(CWnd* pParent = nullptr);   // стандартный конструктор
-	virtual ~DownLoadDlg();
+	RunDlg(CWnd* pParent = nullptr);   // стандартный конструктор
+	virtual ~RunDlg();
 
 // Данные диалогового окна
 #ifdef AFX_DESIGN_TIME
-	enum { IDD = IDD_DOWNLOAD_DIALOG };
+	enum { IDD = IDD_RUN_DIALOG };
 #endif
-
-private:
-	CFont font_Expect;
 
 protected:
 	HICON m_hIcon;
-
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // поддержка DDX/DDV
 
 	virtual BOOL OnInitDialog();
 
 	DECLARE_MESSAGE_MAP()
+public:
+	CButton installBt;
 };

@@ -18,7 +18,7 @@
     <ClInclude Include="TaskForWork.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="TaskForWorkDlg.h">
+    <ClInclude Include="StartDlg.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
@@ -36,18 +36,24 @@
     <ClInclude Include="DownLoadDlg.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="RunDlg.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TaskForWork.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="TaskForWorkDlg.cpp">
+    <ClCompile Include="StartDlg.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="DownLoadDlg.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="RunDlg.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -72,6 +78,9 @@
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="res\skachat.png">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
+    <Image Include="res\Install.png">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>

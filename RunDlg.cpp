@@ -1,36 +1,37 @@
-﻿// DownLoadDlg.cpp: файл реализации
+﻿// RunDlg.cpp: файл реализации
 //
 
 #include "pch.h"
 #include "TaskForWork.h"
 #include "afxdialogex.h"
-#include "DownLoadDlg.h"
+#include "RunDlg.h"
 
 
-// Диалоговое окно DownLoadDlg
+// Диалоговое окно RunDlg
 
-IMPLEMENT_DYNAMIC(DownLoadDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(RunDlg, CDialogEx)
 
-DownLoadDlg::DownLoadDlg(CWnd* pParent /*=nullptr*/)
-	: CDialogEx(IDD_DOWNLOAD_DIALOG, pParent)
+RunDlg::RunDlg(CWnd* pParent /*=nullptr*/)
+	: CDialogEx(IDD_RUN_DIALOG, pParent)
 {
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
-DownLoadDlg::~DownLoadDlg()
+RunDlg::~RunDlg()
 {
 }
 
-void DownLoadDlg::DoDataExchange(CDataExchange* pDX)
+void RunDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_INSTALL_BUTTON, installBt);
 }
 
 
-BEGIN_MESSAGE_MAP(DownLoadDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(RunDlg, CDialogEx)
 END_MESSAGE_MAP()
 
-BOOL DownLoadDlg::OnInitDialog()
+BOOL RunDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
@@ -41,16 +42,17 @@ BOOL DownLoadDlg::OnInitDialog()
 
 	// TODO: добавьте дополнительную инициализацию
 
-	LOGFONT lf = { 0 };
-	lf.lfHeight = -16;
-	lf.lfWeight = FW_BOLD;
-	_tcscpy_s(lf.lfFaceName, _T("Arial"));
-
-	font_Expect.CreateFontIndirect(&lf);
-
-	GetDlgItem(IDC_EXPECT)->SetFont(&font_Expect);
+	CPngImage installImg;
+	if (installImg.Load(IDB_INSTALL, nullptr))
+	{
+		installBt.SetBitmap((HBITMAP)installImg.Detach());
+	}
+	else
+	{
+		AfxMessageBox(_T("Не удалось загрузить PNG из ресурсов!"));
+	}
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
 
-// Обработчики сообщений DownLoadDlg
+// Обработчики сообщений RunDlg
