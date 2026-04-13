@@ -8,6 +8,7 @@
 #include "StartDlg.h"
 #include "DownLoadDlg.h"
 #include "RunDlg.h"
+#include <memory>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,6 +31,8 @@ CTaskForWorkApp::CTaskForWorkApp()
 
 	// TODO: добавьте код создания,
 	// Размещает весь важный код инициализации в InitInstance
+
+	nextDlgID = 0;
 }
 
 
@@ -73,25 +76,49 @@ BOOL CTaskForWorkApp::InitInstance()
 	// например на название организации
 	SetRegistryKey(_T("TaskForWork"));
 
-	//StartDlg dlg;
-	RunDlg dlg;
+	for (unsigned i = 1; i < __argc; ++i){
+		if (_tcsicmp(__targv[i], _T("--use-curl")) == 0 ||
+			_tcsicmp(__targv[i], _T("/use-curl")) == 0){
+			useCurl = TRUE;
+			break;
+		}
+		else if (_tcsicmp(__targv[i], _T("--use-wininet")) == 0 ||
+				 _tcsicmp(__targv[i], _T("/use-wininet")) == 0) {
+			useCurl = FALSE;
+			break;
+		}
+		else {
+			useCurl = FALSE;
+		}
+	}
 
-	m_pMainWnd = &dlg;
-	INT_PTR nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-		// TODO: Введите код для обработки закрытия диалогового окна
-		//  с помощью кнопки "ОК"
-	}
-	else if (nResponse == IDCANCEL)
-	{
-		// TODO: Введите код для обработки закрытия диалогового окна
-		//  с помощью кнопки "Отмена"
-	}
-	else if (nResponse == -1)
-	{
-		TRACE(traceAppMsg, 0, "Предупреждение. Не удалось создать диалоговое окно, поэтому работа приложения неожиданно завершена.\n");
-		TRACE(traceAppMsg, 0, "Предупреждение. При использовании элементов управления MFC для диалогового окна невозможно #define _AFX_NO_MFC_CONTROLS_IN_DIALOGS.\n");
+	UINT nDlgID = IDD_START_DIALOG;
+
+	while(nDlgID != 0){
+		std::unique_ptr<CDialogEx> dlg;
+
+		switch (nDlgID){
+			case IDD_START_DIALOG:
+				dlg = std::make_unique<StartDlg>();
+				break;
+			case IDD_DOWNLOAD_DIALOG:
+				dlg = std::make_unique<DownLoadDlg>();
+				break;
+			case IDD_RUN_DIALOG:
+				dlg = std::make_unique<RunDlg>();
+				break;
+			default:
+				break;
+		}
+
+		if (!dlg){
+			break;
+		}
+
+		INT_PTR nResponse = dlg->DoModal();
+
+		nDlgID = nextDlgID;
+		nextDlgID = 0;
 	}
 
 	// Удалить диспетчер оболочки, созданный выше.

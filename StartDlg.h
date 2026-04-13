@@ -37,4 +37,5 @@ protected:
 public:
 	CStatic ZipLogo;
 	CButton ButtonDownLoad;
+	afx_msg void OnBnClickedButdownload();
 };

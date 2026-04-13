@@ -7,8 +7,6 @@
 #include "TaskForWork.h"
 #include "StartDlg.h"
 #include "afxdialogex.h"
-
-#include <afxinet.h>
 #include <afxtoolbarimages.h>
 
 #ifdef _DEBUG
@@ -33,6 +31,7 @@ void StartDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(StartDlg, CDialogEx)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
+	ON_BN_CLICKED(IDC_BUTDOWNLOAD, &StartDlg::OnBnClickedButdownload)
 END_MESSAGE_MAP()
 
 
@@ -114,4 +113,13 @@ void StartDlg::OnPaint()
 HCURSOR StartDlg::OnQueryDragIcon()
 {
 	return static_cast<HCURSOR>(m_hIcon);
+}
+void StartDlg::OnBnClickedButdownload()
+{
+	// TODO: добавьте свой код обработчика уведомлений
+	CTaskForWorkApp* app = static_cast<CTaskForWorkApp*>(AfxGetApp());
+
+	app->nextDlgID = IDD_DOWNLOAD_DIALOG;
+
+	EndDialog(IDOK);
 }

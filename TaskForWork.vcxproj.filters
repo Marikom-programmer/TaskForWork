@@ -39,6 +39,9 @@
     <ClInclude Include="RunDlg.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="DownLoadFile.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TaskForWork.cpp">
@@ -56,6 +59,9 @@
     <ClCompile Include="RunDlg.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="DownLoadFile.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="TaskForWork.rc">
@@ -66,12 +72,10 @@
     <None Include="res\TaskForWork.rc2">
       <Filter>Файлы ресурсов</Filter>
     </None>
+    <None Include="res\7Zip.exe" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\TaskForWork.ico">
-      <Filter>Файлы ресурсов</Filter>
-    </Image>
-    <Image Include="res\bitmap1.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
     <Image Include="res\7ziplogo.png">

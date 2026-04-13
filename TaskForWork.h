@@ -25,6 +25,9 @@ public:
 	virtual BOOL InitInstance();
 
 // Реализация
+	UINT nextDlgID;
+
+	BOOL useCurl = FALSE;
 
 	DECLARE_MESSAGE_MAP()
 };
