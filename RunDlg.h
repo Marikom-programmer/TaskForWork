@@ -17,6 +17,9 @@ public:
 	enum { IDD = IDD_RUN_DIALOG };
 #endif
 
+private:
+	CFont fontInfo;
+
 protected:
 	HICON m_hIcon;
 
@@ -26,5 +29,9 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	CButton installBt;
+	CButton installBut;
+	CStatic infoText;
+	afx_msg void OnBnClickedInstallButton();
 };
+
+UINT LaunchAndWait(LPCTSTR filePath);

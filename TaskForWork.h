@@ -28,6 +28,7 @@ public:
 	UINT nextDlgID;
 
 	BOOL useCurl = FALSE;
+	CString strLocalPath;
 
 	DECLARE_MESSAGE_MAP()
 };

@@ -19,7 +19,7 @@ public:
 #endif
 
 private:
-	CFont font_Expect;
+	CFont fontExpect;
 
 protected:
 	HICON m_hIcon;
@@ -48,3 +48,5 @@ public:
 	afx_msg LRESULT OnDownLoadComplete(WPARAM wParam, LPARAM lParam);
 	DECLARE_MESSAGE_MAP()
 };
+
+CString GetTempDirectory();

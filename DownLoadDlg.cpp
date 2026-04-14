@@ -39,9 +39,9 @@ void DownLoadDlg::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(DownLoadDlg, CDialogEx)
 	ON_BN_CLICKED(IDC_CANCEL, &DownLoadDlg::OnBnClickedCancel)
 	ON_BN_CLICKED(IDC_NEXT, &DownLoadDlg::OnBnClickedNext)
+	ON_BN_CLICKED(IDC_BACK, &DownLoadDlg::OnBnClickedBack)
 	ON_MESSAGE(WM_DOWNLOAD_PROGRESS, &DownLoadDlg::OnDownLoadProgress)
 	ON_MESSAGE(WM_DOWNLOAD_COMPLETE, &DownLoadDlg::OnDownLoadComplete)
-	ON_BN_CLICKED(IDC_BACK, &DownLoadDlg::OnBnClickedBack)
 END_MESSAGE_MAP()
 
 BOOL DownLoadDlg::OnInitDialog()
@@ -60,42 +60,25 @@ BOOL DownLoadDlg::OnInitDialog()
 	lf.lfWeight = FW_BOLD;
 	_tcscpy_s(lf.lfFaceName, _T("Arial"));
 
-	font_Expect.CreateFontIndirect(&lf);
+	fontExpect.CreateFontIndirect(&lf);
 
-	status.SetFont(&font_Expect);
+	status.SetFont(&fontExpect);
 
 	progBarDownLoad.SetRange(0, 100);
 	progBarDownLoad.SetPos(0);
 	status.SetWindowText(_T("Подготовка к загрузке..."));
 
+	CTaskForWorkApp* app = static_cast<CTaskForWorkApp*>(AfxGetApp());
 
-	CFileDialog fileDlg(
-		FALSE,
-		_T("exe"),
-		_T("7Zip.exe"),
-		OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT,
-		_T("Файлы запуска (*.exe)|*.exe"),
-		this);
+	CString tempDir = GetTempDirectory();
+	CString fileName = _T("7Zip.exe");
 
-	INT_PTR nResponse = fileDlg.DoModal();
-	if (nResponse == IDOK)
-	{
-		strLocalPath = fileDlg.GetPathName();
+	strLocalPath = tempDir + fileName;
+	app->strLocalPath = strLocalPath;
 
-		strUrl = _T("https://github.com/ip7z/7zip/releases/download/26.00/7z2600-x64.exe");
+	strUrl = _T("https://github.com/ip7z/7zip/releases/download/26.00/7z2600-x64.exe");
 
-		downLoader.StartDownload(this, strUrl, strLocalPath, useCurl);
-	}
-	else if (nResponse == IDCANCEL) {
-		status.SetWindowText(_T("Загрузка отменена..."));
-
-		cancelButton.EnableWindow(FALSE);
-		cancelButton.ShowWindow(SW_HIDE);
-
-		backBut.EnableWindow(TRUE);
-		backBut.ShowWindow(SW_SHOW);
-	}
-
+	downLoader.StartDownload(this, strUrl, strLocalPath, useCurl);
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }
@@ -172,4 +155,14 @@ void DownLoadDlg::OnBnClickedBack()
 	app->nextDlgID = IDD_START_DIALOG;
 
 	EndDialog(IDOK);
+}
+
+CString GetTempDirectory(){
+	TCHAR tempPath[MAX_PATH];
+	DWORD result = ::GetTempPath(MAX_PATH, tempPath);
+	if (result == 0 || result > MAX_PATH)
+	{
+		return _T("");
+	}
+	return CString(tempPath);
 }

@@ -72,9 +72,9 @@ BOOL StartDlg::OnInitDialog()
 	lf.lfWeight = FW_BOLD;
 	_tcscpy_s(lf.lfFaceName, _T("Arial"));
 
-	font_Description.CreateFontIndirect(&lf);
+	fontDescription.CreateFontIndirect(&lf);
 
-	GetDlgItem(IDC_DESCRIPTION)->SetFont(&font_Description);
+	GetDlgItem(IDC_DESCRIPTION)->SetFont(&fontDescription);
 
 	return TRUE;  // возврат значения TRUE, если фокус не передан элементу управления
 }

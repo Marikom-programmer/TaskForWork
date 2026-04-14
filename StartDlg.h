@@ -18,7 +18,7 @@ public:
 #endif
 
 private:
-	CFont font_Description;
+	CFont fontDescription;
 
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// поддержка DDX/DDV
