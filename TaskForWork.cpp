@@ -76,6 +76,8 @@ BOOL CTaskForWorkApp::InitInstance()
 	// например на название организации
 	SetRegistryKey(_T("TaskForWork"));
 
+	dateTime = CTime::GetCurrentTime().Format(_T("%Y-%m-%d %H:%M:%S"));
+
 	for (unsigned i = 1; i < __argc; ++i){
 		if (_tcsicmp(__targv[i], _T("--use-curl")) == 0 ||
 			_tcsicmp(__targv[i], _T("/use-curl")) == 0){

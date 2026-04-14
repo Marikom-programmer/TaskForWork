@@ -35,3 +35,5 @@ public:
 };
 
 UINT LaunchAndWait(LPCTSTR filePath);
+
+UINT StatisticsThreadProc(LPVOID pParam);

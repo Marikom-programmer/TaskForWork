@@ -5,7 +5,8 @@
 #include "TaskForWork.h"
 #include "afxdialogex.h"
 #include "RunDlg.h"
-
+#include "StatisticsSender.h"
+#include <memory>
 
 // Диалоговое окно RunDlg
 
@@ -76,23 +77,51 @@ void RunDlg::OnBnClickedInstallButton()
 
 	DWORD result = LaunchAndWait(app->strLocalPath);
 	CString str;
+	CString launchResult;
+
+	app->elevationResult = _T("denied");
 
 	if (result == ERROR_SUCCESS) {
 		str = (_T("Установка завершена успешно."));
+
+		app->elevationResult = _T("granted");
+		launchResult = _T("success");
 	}
 	else if (result == ERROR_FILE_NOT_FOUND) {
 		str = (_T("Файл ненайден. Попробуйте запустить установщик заново."));
+
+		launchResult = _T("file_not_found");
 	}
 	else if (result == ERROR_CANCELLED) {
 		str = (_T("Для установки требуются права администратора. Операция отменена пользователем."));
+
+		launchResult = _T("elevation_denied");
 	}
 	else if (result == 1) {
 		str = (_T("Установка отменена пользователем."));
+
+		app->elevationResult = _T("granted");
+		launchResult = _T("user_canceled_install");
 	}
 	else {
 		str.Format(_T("Неизвестная ошибка. Код ишибки - %u"), result);
+		launchResult.Format(_T("exit_code_%u"), result);
 	}
 	infoText.SetWindowText(str);
+
+	CString ipServer = _T("http://127.0.0.1:8002");
+	CString endPoint = _T("/1");
+	CString mode = app->useCurl ? _T("curl") : _T("wininet");
+
+	auto pParams = std::make_unique<StatisticsThreadParams>();
+	pParams->ipServer = ipServer;
+	pParams->endPoint = endPoint;
+	pParams->mode = mode;
+	pParams->dateTime = app->dateTime;
+	pParams->elevationResult = app->elevationResult;
+	pParams->launchResult = launchResult;
+
+	AfxBeginThread(StatisticsThreadProc, pParams.release());
 }
 
 UINT LaunchAndWait(LPCTSTR filePath){
@@ -119,4 +148,14 @@ UINT LaunchAndWait(LPCTSTR filePath){
 	error = GetLastError();
 
 	return error;
+}
+
+UINT StatisticsThreadProc(LPVOID pParam)
+{
+	StatisticsSender stat;
+
+	std::unique_ptr<StatisticsThreadParams> p(static_cast<StatisticsThreadParams*>(pParam));
+	bool success = stat.SendStatisticsWinInet(p->ipServer, p->endPoint, p->mode, p->dateTime, p->elevationResult, p->launchResult);
+
+	return 0;
 }

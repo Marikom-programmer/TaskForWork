@@ -29,6 +29,8 @@ public:
 
 	BOOL useCurl = FALSE;
 	CString strLocalPath;
+	CString dateTime;
+	CString elevationResult;
 
 	DECLARE_MESSAGE_MAP()
 };

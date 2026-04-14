@@ -42,6 +42,9 @@
     <ClInclude Include="DownLoadFile.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="StatisticsSender.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TaskForWork.cpp">
@@ -60,6 +63,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="DownLoadFile.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="StatisticsSender.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
