@@ -9,6 +9,7 @@
 #include "DownLoadDlg.h"
 #include "RunDlg.h"
 #include <memory>
+#include <curl/curl.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -81,6 +82,9 @@ BOOL CTaskForWorkApp::InitInstance()
 	for (unsigned i = 1; i < __argc; ++i){
 		if (_tcsicmp(__targv[i], _T("--use-curl")) == 0 ||
 			_tcsicmp(__targv[i], _T("/use-curl")) == 0){
+
+			curl_global_init(CURL_GLOBAL_ALL);
+
 			useCurl = TRUE;
 			break;
 		}
@@ -136,4 +140,14 @@ BOOL CTaskForWorkApp::InitInstance()
 	// Поскольку диалоговое окно закрыто, возвратите значение FALSE, чтобы можно было выйти из
 	//  приложения вместо запуска генератора сообщений приложения.
 	return FALSE;
+}
+
+BOOL CTaskForWorkApp::ExitInstance() {
+	if (useCurl) {
+		curl_global_cleanup();
+	}
+
+	CWinApp::ExitInstance();
+
+	return TRUE;
 }

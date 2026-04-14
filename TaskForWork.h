@@ -23,6 +23,7 @@ public:
 // Переопределение
 public:
 	virtual BOOL InitInstance();
+	virtual BOOL ExitInstance();
 
 // Реализация
 	UINT nextDlgID;

@@ -153,9 +153,9 @@ UINT LaunchAndWait(LPCTSTR filePath){
 UINT StatisticsThreadProc(LPVOID pParam)
 {
 	StatisticsSender stat;
+	CTaskForWorkApp* app = static_cast<CTaskForWorkApp*>(AfxGetApp());
 
-	std::unique_ptr<StatisticsThreadParams> p(static_cast<StatisticsThreadParams*>(pParam));
-	bool success = stat.SendStatisticsWinInet(p->ipServer, p->endPoint, p->mode, p->dateTime, p->elevationResult, p->launchResult);
+	BOOL success = stat.StartSendStatistics(pParam, app->useCurl);
 
 	return 0;
 }
