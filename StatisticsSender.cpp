@@ -16,6 +16,12 @@ BOOL StatisticsSender::StartSendStatistics(LPVOID pParam, BOOL useCurl) {
     else {
         success = SendStatisticsWinInet(p->ipServer, p->endPoint, p->mode, p->dateTime, p->elevationResult, p->launchResult);
     }
+
+    if (!success) {
+        AfxMessageBox(_T("Не удалось отправить статистику. Проверьте подключение к сети."));
+        ExitProcess(1);
+    }
+
     return success;
 }
 

@@ -111,9 +111,68 @@ BOOL DownLoadFile::DownLoadFileWinInet(const CString& strURL, const CString& str
 }
 
 BOOL DownLoadFile::DownloadFileCurl(const CString& strURL, const CString& strLocalPath){
-    AfxMessageBox(_T("Временно не работает..."));
+    for (unsigned i = 0; i < 2 && !cancel; ++i){
+        if (i > 0) {
+            Sleep(2000);
+        }
+        
+        CFile localFile;
+        if (!localFile.Open(strLocalPath, CFile::modeCreate | CFile::modeWrite | CFile::typeBinary)) {
+            continue;
+        }
 
-	return FALSE;
+        CURL* curl = curl_easy_init();
+        if (!curl){
+            localFile.Close();
+            continue;
+        }
+
+        CStringA strUrlA(strURL);
+
+        curl_easy_setopt(curl, CURLOPT_URL, strUrlA.GetString());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteData);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &localFile);
+        curl_easy_setopt(curl, CURLOPT_XFERINFOFUNCTION, ProgressCallback);
+        curl_easy_setopt(curl, CURLOPT_XFERINFODATA, this);
+        curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 0L);
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+        curl_easy_setopt(curl, CURLOPT_FAILONERROR, 1L);
+        curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT, 30L);
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 300L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0L);
+
+        CURLcode res = curl_easy_perform(curl);
+
+        curl_easy_cleanup(curl);
+        localFile.Close();
+
+        if (res == CURLE_OK) {
+            return TRUE;
+        }
+
+        ::DeleteFile(strLocalPath);
+    }
+    return FALSE;
+}
+
+size_t DownLoadFile::WriteData(void* ptr, size_t size, size_t nmemb, void* stream){
+    CFile* file = static_cast<CFile*>(stream);
+    size_t totalSize = size * nmemb;
+    file->Write(ptr, (UINT)totalSize);
+    return totalSize;
+}
+
+int DownLoadFile::ProgressCallback(void* clientp, curl_off_t dltotal, curl_off_t dlnow, curl_off_t ultotal, curl_off_t ulnow){
+    DownLoadFile* pThis = static_cast<DownLoadFile*>(clientp);
+
+    if (pThis->cancel) {
+        return 1;
+    }
+
+    pThis->PostProgress((DWORD)dlnow, (DWORD)dltotal);
+
+    return 0;
 }
 
 void DownLoadFile::PostProgress(DWORD bytesRead, DWORD totalSize){
